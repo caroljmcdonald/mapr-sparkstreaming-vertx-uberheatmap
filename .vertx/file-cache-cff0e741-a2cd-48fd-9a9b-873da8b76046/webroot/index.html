@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/jke-d3-ecg.css">
+
+    <script src="js/vertx/sockjs.min.js"></script>
+    <script src="js/vertx/vertxbus.js"></script>
+
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#!/home">
+                <img alt="Brand" src="image/logo-04.png" width="80" height="26">
+            </a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 1</b></a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/dashboard.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 2</b></a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/log.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Logs</b></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Electrocardiogram (ECG)</h2>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jke-ecgChart"></div>
+        </div>
+        <div class="col-md-4">
+            ECG data coming out of MapR Streams topic
+        </div>
+    </div>
+
+
+</div> <!-- /container -->
+
+
+
+<hr />
+
+
+<!-- Include dependencies -->
+<script src="js/jquery/jquery.min.js"></script>
+<script src="js/jquery/jquery-ui-widget.min.js"></script>
+<script src="js/d3/d3.min.js"></script>
+
+<!-- Include jke-d3-ecg and initialize the chart -->
+<script src="js/d3/jke-d3-ecg.min.js"></script>
+<script>
+    $('.jke-ecgChart').ecgChart();
+</script>
+
+<script src="js/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/datasource.js"></script>
+
+
+
+</body>
+</html>

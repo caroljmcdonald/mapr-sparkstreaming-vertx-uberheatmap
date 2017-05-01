@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+Copyright 2017 cmcdonald.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MAPS!</title>
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+        </style>
+
+        <script src="js/vertx/sockjs.min.js"></script>
+        <script src="js/vertx/vertxbus.js"></script>
+        <!-- Google Maps -->
+        <link href="https://google-developers.appspot.com/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbKXTPdUuKimkq5ONrChpNuxnI5SMhMUI&libraries=visualization"></script>
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/jquery/jquery-ui-widget.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+
+    </head>
+    <body onload="initMap()">
+
+        <div id="map"></div>
+        <script>
+
+            var map, heatmap, dt;
+            var points = [];
+            var tempdata = [];
+            var ccount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            var locations = [
+                [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0],
+                [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
+
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 13,
+                    center: {lat: 40.77564772548754, lng: -73.95880025436068},
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                });
+                ;
+                tempdata.push(new google.maps.LatLng(0, 0))
+                heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: tempdata,
+                    map: map
+                });
+
+            }
+
+            var eb = new vertx.EventBus("http://" + location.host + "/eventbus");
+            eb.onopen = function () {
+                console.log("open");
+                eb.registerHandler("dashboard", function (data) {
+
+                    var msg = JSON.parse(data);
+                    var cluster = msg.cid;
+                    var lat = msg.lat;
+                    var lon = msg.lon;
+                    if (ccount[cluster] < 1) {
+                        locations[cluster][0] = msg.clat;
+                        locations[cluster][1] = msg.clon;
+                        marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(locations[cluster][0], locations[cluster][1]),
+                            label: String(cluster),
+                            map: map
+                        });
+                    }
+                    ccount[cluster] = ccount[cluster] + 1;
+                    console.log(msg);
+                    console.log("clusterid " + cluster + " count " + ccount[cluster]);
+                    points = points.concat(new google.maps.LatLng(lat, lon));
+                    heatmap.setData(points);
+                });
+            };
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+    <head>  
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="css/jke-d3-ecg.css">
+
+        <script src="js/vertx/sockjs.min.js"></script>
+        <script src="js/vertx/vertxbus.js"></script>
+    </head>
+    <body>
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/jquery/jquery-ui-widget.min.js"></script>
+        <script src="js/d3/d3.min.js"></script>
+
+        <script type="text/javascript">
+
+            var dataLength = 500;
+            var lat;
+            var lon;
+// {"dt":"2014-08-01 00:00:00.0","lat":40.3495,"lon":-74.0667,"base":"B02682","prediction":5}
+            window.onload = function () {
+
+                var eb = new vertx.EventBus("http://" + location.host + "/eventbus");
+                eb.onopen = function () {
+                    console.log("open");
+                    eb.registerHandler("dashboard", function (data) {
+
+                        console.log(data);
+                        var message = JSON.parse(data);
+                        lat = message.lat
+                        lon = message.lon;
+                        drawMap(message);
+                    });
+                };
+
+
+                var drawMap = function (msg) {
+                    //  document.getElementById("map").append(msg.lat + "\n");
+                    document.getElementById('map').value = msg.lat;
+                }
+
+
+            }
+        </script>
+
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/datasource.js"></script>
+
+
+
+        <div id="mapContainer" style="height: 300px; width: 100%;">
+            <input id="map" type="text" readonly title="map latitude longitude"><br>
+        </div>
+    </body>
+</html>

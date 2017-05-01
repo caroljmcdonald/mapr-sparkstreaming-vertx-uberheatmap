@@ -1,0 +1,235 @@
+.menu {
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
+}
+.menu:before {
+    content: "[";
+}
+
+.menu:after {
+    content: "]";
+}
+
+.menu > li {
+    display: inline;
+}
+
+.menu > li:before {
+    content: "|";
+    padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+    content: "";
+    padding: 0;
+}
+
+/* Additional CSS*/
+.dashcontainer {
+    padding-bottom: 100px;
+}
+
+/*Admin CSS*/
+.row.adminrow {
+    padding-left :15px;
+    padding-bottom: 10px;
+}
+/*End Admin CSS*/
+
+.btn.custom{
+    background-image: none;
+    background-color: #333333;
+    color: #ffffff;
+    text-shadow: none;
+}
+
+#buttongroup1 {
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 15px;
+}
+
+.theader {
+    background-color: #efefef;
+}
+
+.theader tr th {
+    height: 45px;
+}
+
+/* Switch css*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 5px;
+    margin-top: 8px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Spacer list */
+#faspacer {
+    padding-right: 7px;
+}
+.labelspacer {
+    padding-top: 9px;
+}
+.row.rowspacer {
+    padding-bottom: 10px;
+}
+.adminspacer {
+    padding-bottom: 12px;
+}
+.navbar {
+    background-color: #00263A;
+    background-image: none;
+}
+
+input[type="text"], textarea {
+    background-color : #F8F8F8;
+}
+
+/* MEOW*/
+
+.runner-sm {
+    padding: 1px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.runner-sm hr {
+    border-top-color: #c9e2b3;
+    margin-top: 0;
+    color: inherit;
+}
+
+#myProgress {
+    width: 100%;
+    height: 15px;
+    background-color: grey;
+}
+#myBar {
+    width: 0%;
+    height: 100%;
+    background-color: green;
+}
+
+.custombtn{
+    border-radius: 4px;
+    background-color: #333333;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 7px;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2px;
+}
+
+
+.custombtn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.custombtn span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.custombtn:hover span {
+    padding-right: 25px;
+}
+
+.custombtn:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.panel.panel-green {
+    border-color: #5cb85c;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.panel.panel-yellow {
+    border-color: #f0ad4e;
+    background-color: #f0ad4e;/*#FDC82F; */
+    color: white;
+}
+
+
+.dashboardstatus {
+    font-size: 43px;
+    color: white;
+
+}
+
+#maprtheme-nav{
+    color: #C60C30;
+}
+

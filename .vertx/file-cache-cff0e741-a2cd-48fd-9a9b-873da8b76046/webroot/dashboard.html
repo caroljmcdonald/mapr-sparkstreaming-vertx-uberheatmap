@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/jke-d3-ecg.css">
+
+  <script src="js/vertx/sockjs.min.js"></script>
+  <script src="js/vertx/vertxbus.js"></script>
+  <script src="js/smoothie/smoothie.js"></script>
+
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#!/home">
+        <img alt="Brand" src="image/logo-04.png" width="80" height="26">
+      </a>
+    </div>
+
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 1</b></a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="/dashboard.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 2</b></a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="/log.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Logs</b></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-9">
+      <h2>Electrocardiogram (ECG)</h2>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <canvas id="ecg-canvas" width="600" height="400"></canvas>
+    </div>
+    <div class="col-md-4">
+      ECG data coming out of MapR Streams topic
+    </div>
+  </div>
+
+
+</div> <!-- /container -->
+
+
+
+<hr />
+
+<script src="js/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/datasource.js"></script>
+
+
+<script>
+  var line1 = new TimeSeries();
+
+  var eb = new vertx.EventBus("http://" + location.host + "/eventbus");
+  eb.onopen = function() {
+    console.log("open");
+    eb.registerHandler("dashboard", function(data) {
+      var entry = JSON.parse(data);
+      line1.append( entry.ts ,  entry.value/100  );
+    });
+  };
+  var smoothie = new SmoothieChart({ grid: { strokeStyle: 'rgb(125, 0, 0)', fillStyle: 'rgb(60, 0, 0)', lineWidth: 1, millisPerLine: 250, verticalSections: 6 } });
+  smoothie.addTimeSeries(line1, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 3 });
+  smoothie.streamTo(document.getElementById("ecg-canvas"), 1000);
+</script>
+
+
+</body>
+</html>
+

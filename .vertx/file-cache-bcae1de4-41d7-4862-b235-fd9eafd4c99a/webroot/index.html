@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+Copyright 2017 cmcdonald.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MAPS!</title>
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #floating-panel {
+                position: absolute;
+                top: 10px;
+                left: 25%;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                line-height: 30px;
+                padding-left: 10px;
+            }
+            #floating-panel {
+                background-color: #fff;
+                border: 1px solid #999;
+                left: 25%;
+                padding: 5px;
+                position: absolute;
+                top: 10px;
+                z-index: 5;
+            }
+        </style>
+
+        <script src="js/vertx/sockjs.min.js"></script>
+        <script src="js/vertx/vertxbus.js"></script>
+        <!-- Google Maps -->
+        <link href="https://google-developers.appspot.com/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbKXTPdUuKimkq5ONrChpNuxnI5SMhMUI&libraries=visualization"></script>
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/jquery/jquery-ui-widget.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+
+    </head>
+    <body onload="initMap()">
+        <div id="floating-panel">
+            <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+            <button onclick="changeGradient()">Change gradient</button>
+            <button onclick="changeRadius()">Change radius</button>
+            <button onclick="changeOpacity()">Change opacity</button>
+        </div>
+        <div id="map"></div>
+        <script>
+
+            // This example requires the Visualization library. Include the libraries=visualization
+            // parameter when you first load the API. For example:
+            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+            var map, heatmap;
+            var points = []
+            //  var points = getPoints();
+            function initMap() {
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: {lat: 40.75144, lng: -74.00331},
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                })
+                var fakedata = []
+                fakedata.push(new google.maps.LatLng(0, 0))
+                heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: fakedata,
+                    map: map
+                });
+            }
+
+            function toggleHeatmap() {
+               // points = points.concat(getMorePoints())
+               // console.log(points.length);
+                // heatmap.setData(points);
+                heatmap.setMap(heatmap.getMap() ? null : map);
+            }
+
+            function changeGradient() {
+                var gradient = [
+                    'rgba(0, 255, 255, 0)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 191, 255, 1)',
+                    'rgba(0, 127, 255, 1)',
+                    'rgba(0, 63, 255, 1)',
+                    'rgba(0, 0, 255, 1)',
+                    'rgba(0, 0, 223, 1)',
+                    'rgba(0, 0, 191, 1)',
+                    'rgba(0, 0, 159, 1)',
+                    'rgba(0, 0, 127, 1)',
+                    'rgba(63, 0, 91, 1)',
+                    'rgba(127, 0, 63, 1)',
+                    'rgba(191, 0, 31, 1)',
+                    'rgba(255, 0, 0, 1)'
+                ]
+                heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+            }
+
+            function changeRadius() {
+                heatmap.set('radius', heatmap.get('radius') ? null : 20);
+            }
+
+            function changeOpacity() {
+                heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+            }
+
+            // Heatmap data: 500 Points
+            function getPoints() {
+                return [
+                    new google.maps.LatLng(40.730622561858716, -73.9979620071032)
+                ];
+            }
+            function getMorePoints() {
+                return [
+                    new google.maps.LatLng(40.76934636591478, -73.46903414786968)
+                ];
+            }
+
+            var eb = new vertx.EventBus("http://" + location.host + "/eventbus");
+            eb.onopen = function () {
+                console.log("open");
+                eb.registerHandler("dashboard", function (data) {
+
+                    var msg = JSON.parse(data);
+                    console.log(msg);
+                    // line1= line1 + message.lon + message.lat;
+                    //  points = points.concat(new google.maps.LatLng(msg.lat, msg.lon));
+                    // points = points.concat(new google.maps.LatLng(40.695365107623196, -73.95975740619237));
+                    points = points.concat(getMorePoints())
+                    console.log(points);
+                    heatmap.setData(points);
+                });
+            };
+        </script>
+
+
+    </body>
+</html>

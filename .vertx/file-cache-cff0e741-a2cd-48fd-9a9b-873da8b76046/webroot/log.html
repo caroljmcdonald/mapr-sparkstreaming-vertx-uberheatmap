@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/jke-d3-ecg.css">
+
+  <script src="js/vertx/sockjs.min.js"></script>
+  <script src="js/vertx/vertxbus.js"></script>
+
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#!/home">
+        <img alt="Brand" src="image/logo-04.png" width="80" height="26">
+      </a>
+    </div>
+
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 1</b></a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="/dashboard.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Dashboard 2</b></a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="/log.html"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;<b>Logs</b></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+      <div id="bus-messages"></div>
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>
+
+
+</div> <!-- /container -->
+
+
+
+<hr />
+
+<script src="js/jquery/jquery.min.js"></script>
+<script src="js/bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+  var eb = new vertx.EventBus("http://" + location.host + "/eventbus");
+  eb.onopen = function() {
+    console.log("open");
+    eb.registerHandler("dashboard", function(data) {
+      console.log(data);
+      $("#bus-messages").prepend(data);
+    });
+  };
+</script>
+
+
+</body>
+</html>
+

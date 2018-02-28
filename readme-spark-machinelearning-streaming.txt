@@ -34,9 +34,9 @@ There are 3 ways:
 
 Step 0: Create the topics to read from (ubers) and write to (uberp)  in MapR streams:
 
-$ maprcli stream create -path /apps/iot_stream -produceperm p -consumeperm p -topicperm p
-$ maprcli stream topic create -path /apps/iot_stream -topic ubers
-$ maprcli stream topic create -path /apps/iot_stream -topic uberp
+$ maprcli stream create -path /user/user01/stream -produceperm p -consumeperm p -topicperm p
+$ maprcli stream topic create -path /user/user01/stream -topic ubers
+$ maprcli stream topic create -path /user/user01/stream -topic uberp
  
 ____________________________________________________________________
 
@@ -65,6 +65,8 @@ spark-submit --class com.sparkkafka.uber.SparkKafkaConsumerProducer --master loc
  mapr-streams-vertx-uberdashboard-1.0-SNAPSHOT-fat.jar /user/user01/data/savemodel  /user/user01/stream:ubers /user/user01/stream:uberp
 
 ____________________________________________________________________
+
+java -jar ./target/mapr-streams-vertx-uberdashboard-1.0-SNAPSHOT-fat.jar web 8080 /user/user01:uberp
 
 
 To run the MapR Streams Java consumer  with the topic to read from (uberp or ubers):

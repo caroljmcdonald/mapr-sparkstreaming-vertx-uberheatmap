@@ -62,3 +62,12 @@ The `main()` method creates the Web Server and initialize the bus exposed as a W
 In the browser you just need to add some Javascript to received event from the bus see for example the `log.html`, 
 and the javascript at the bottom of the page.
 
+_____________________________
+
+java -cp mapr-streams-vertx-uberdashboard-1.0-SNAPSHOT-fat.jar:`mapr classpath` com.streamskafka.uber.MsgProducer /mapr/demo.mapr.com/stream:uberpp /user/user01/data/clust.txt
+
+java -jar /mapr-streams-vertx-uberdashboard-1.0-SNAPSHOT-fat.jar web 8071 /mapr/demo.mapr.com/stream:uberpp
+
+
+maprcli stream create -path /mapr/demo.mapr.com/stream -produceperm p -consumeperm p -topicperm p
+maprcli stream topic create -path /mapr/demo.mapr.com/stream -topic uberpp

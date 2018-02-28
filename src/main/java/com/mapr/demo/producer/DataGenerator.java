@@ -21,7 +21,7 @@ public class DataGenerator {
   public static KafkaProducer producer;
 
   private static long timeStamp = System.currentTimeMillis();
-  private static long tickInterval = 120; // increment use for each tick
+  private static long tickInterval = 1200; // increment use for each tick
 
   private static List<Float> messageBuffer = null;
   // Set the default stream and topic to publish to.
